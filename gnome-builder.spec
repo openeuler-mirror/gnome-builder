@@ -8,18 +8,18 @@
 %global glib2_version 2.65.0
 %global gtk3_version 3.22.26
 %global json_glib_version 1.2.0
-%global jsonrpc_glib_version 3.29.91
+%global jsonrpc_glib_version 3.41.0
 %global libpeas_version 1.22.0
 %global template_glib_version 3.28.0
-%global libgit2_glib_version  0.28.0.1
+%global libgit2_glib_version 0.28.0.1
 %global devhelp_version 3.25.1
 %global sysprof_version 3.37.1
 
 Name:           gnome-builder
-Version:        3.40.0
+Version:        42.1
 Release:        1
 Summary:        IDE for writing GNOME-based software
-License:        GPLv3+ and GPLv2+ and LGPLv3+ and LGPLv2+ and MIT and CC-BY-SA and CC0
+License:        GPLv3+ and GPLv2+ and LGPLv3+ and LGPLv2+ and MIT and CC0
 URL:            https://wiki.gnome.org/Apps/Builder
 Source0:        https://download.gnome.org/sources/%{name}/%{shortver}/%{name}-%{version}.tar.xz
 
@@ -29,10 +29,11 @@ BuildRequires:  pkgconfig(gspell-1) pkgconfig(gtk+-3.0) >= %{gtk3_version} pkgco
 BuildRequires:  pkgconfig(json-glib-1.0) >= %{json_glib_version} pkgconfig(jsonrpc-glib-1.0) >= %{jsonrpc_glib_version}
 BuildRequires:  pkgconfig(libdazzle-1.0) >= %{libdazzle_version} pkgconfig(libdevhelp-3.0) >= %{devhelp_version}
 BuildRequires:  pkgconfig(libgit2-glib-1.0) >= %{libgit2_glib_version} pkgconfig(libpeas-1.0) >= %{libpeas_version}
-BuildRequires:  pkgconfig(libportal) pkgconfig(libxml-2.0) pkgconfig(pangoft2) pkgconfig(libpcre) pkgconfig(pygobject-3.0)
+BuildRequires:  pkgconfig(libportal-gtk3) pkgconfig(libxml-2.0) pkgconfig(pangoft2) pkgconfig(libpcre) pkgconfig(pygobject-3.0)
 BuildRequires:  pkgconfig(sysprof-4) >= %{sysprof_version} pkgconfig(sysprof-capture-4) pkgconfig(sysprof-ui-4) >= %{sysprof_version}
 BuildRequires:  pkgconfig(template-glib-1.0) >= %{template_glib_version} pkgconfig(vte-2.91) pkgconfig(webkit2gtk-4.0)
-BuildRequires:  python3-devel python3-sphinx python3-sphinx_rtd_theme libappstream-glib
+BuildRequires:  python3-devel python3-sphinx python3-sphinx_rtd_theme libappstream-glib libtidy-devel
+BuildRequires:  pkgconfig(libcmark) pkgconfig(libhandy-1)
 
 Requires:       devhelp-libs%{?_isa} >= 1:%{devhelp_version} glib2%{?_isa} >= %{glib2_version}
 Requires:       gtk3%{?_isa} >= %{gtk3_version} json-glib%{?_isa} >= %{json_glib_version}
@@ -71,6 +72,7 @@ developing applications that use %{name}.
 %find_lang %{name}
 
 %check
+sed -i '/42.[abr]/d' %{buildroot}%{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.desktop
 
@@ -78,9 +80,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %doc NEWS README.md
 %license COPYING
 %{_bindir}/gnome-builder
-%exclude %{_libdir}/gnome-builder/pkgconfig/
 %{_libdir}/gnome-builder/
 %{_libexecdir}/gnome-builder-clang
+%{_libexecdir}/gnome-builder-flatpak
 %{_libexecdir}/gnome-builder-git
 %{python3_sitelib}/gi/
 %{_datadir}/applications/org.gnome.Builder.desktop
@@ -91,15 +93,19 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %dir %{_datadir}/gtksourceview-4
 %dir %{_datadir}/gtksourceview-4/styles
 %{_datadir}/gtksourceview-4/styles/*.xml
+%{_datadir}/gtksourceview-4/language-specs/*.lang
 %{_datadir}/icons/hicolor/*/apps/org.gnome.Builder*.svg
 %{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %lang(en) %{_datadir}/doc/gnome-builder/en/
 
 %files devel
 %{_includedir}/gnome-builder*/
-%{_libdir}/gnome-builder/pkgconfig/
+%{_libdir}/pkgconfig/gnome-builder-*.pc
 %{_datadir}/gnome-builder/gir-1.0/
 
 %changelog
+* Mon Mar 28 2022 lin zhang <lin.zhang@turbolinux.com.cn> - 42.1-1
+- Update to 42.1 and Add gnome-builder.yaml
+
 * Wed Jun 30 2021 weijin deng <weijin.deng@turbolinux.com.cn> - 3.40.0-1
 - Package init with 3.40.0
