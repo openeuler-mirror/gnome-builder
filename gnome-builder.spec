@@ -2,49 +2,79 @@
 %global privlibs .*-private|libide|libgnome-builder-plugins
 %global __requires_exclude ^(%{privlibs}).*\\.so.*
 
-%global shortver %(v=%{version}; echo ${v%.*})
-
-%global libdazzle_version 3.37.0
-%global glib2_version 2.65.0
-%global gtk3_version 3.22.26
+%global glib2_version 2.73.3
+%global gtk4_version 4.7.1
 %global json_glib_version 1.2.0
-%global jsonrpc_glib_version 3.41.0
-%global libpeas_version 1.22.0
-%global template_glib_version 3.28.0
-%global libgit2_glib_version 0.28.0.1
-%global devhelp_version 3.25.1
-%global sysprof_version 3.37.1
+%global jsonrpc_glib_version 3.42.0
+%global libpeas_version 1.34.0
+%global template_glib_version 3.36.0
+%global libgit2_glib_version 1.1.0
+%global sysprof_version 3.46.0
 
 Name:           gnome-builder
-Version:        42.1
+Version:        43.4
 Release:        1
 Summary:        IDE for writing GNOME-based software
 License:        GPLv3+ and GPLv2+ and LGPLv3+ and LGPLv2+ and MIT and CC0
 URL:            https://wiki.gnome.org/Apps/Builder
-Source0:        https://download.gnome.org/sources/%{name}/%{shortver}/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/43/%{name}-%{version}.tar.xz
 
-BuildRequires:  clang-devel desktop-file-utils gettext gtk-doc itstool llvm-devel meson pkgconfig(enchant-2)
-BuildRequires:  pkgconfig(flatpak) pkgconfig(gio-2.0) >= %{glib2_version} pkgconfig(gladeui-2.0)
-BuildRequires:  pkgconfig(gspell-1) pkgconfig(gtk+-3.0) >= %{gtk3_version} pkgconfig(gtksourceview-4)
-BuildRequires:  pkgconfig(json-glib-1.0) >= %{json_glib_version} pkgconfig(jsonrpc-glib-1.0) >= %{jsonrpc_glib_version}
-BuildRequires:  pkgconfig(libdazzle-1.0) >= %{libdazzle_version} pkgconfig(libdevhelp-3.0) >= %{devhelp_version}
-BuildRequires:  pkgconfig(libgit2-glib-1.0) >= %{libgit2_glib_version} pkgconfig(libpeas-1.0) >= %{libpeas_version}
-BuildRequires:  pkgconfig(libportal-gtk3) pkgconfig(libxml-2.0) pkgconfig(pangoft2) pkgconfig(libpcre) pkgconfig(pygobject-3.0)
-BuildRequires:  pkgconfig(sysprof-4) >= %{sysprof_version} pkgconfig(sysprof-capture-4) pkgconfig(sysprof-ui-4) >= %{sysprof_version}
-BuildRequires:  pkgconfig(template-glib-1.0) >= %{template_glib_version} pkgconfig(vte-2.91) pkgconfig(webkit2gtk-4.0)
-BuildRequires:  python3-devel python3-sphinx python3-sphinx_rtd_theme libappstream-glib libtidy-devel
-BuildRequires:  pkgconfig(libcmark) pkgconfig(libhandy-1)
+BuildRequires:  clang-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  gettext
+BuildRequires:  gtk-doc
+BuildRequires:  itstool
+BuildRequires:  llvm-devel
+BuildRequires:  meson
+BuildRequires:  pkgconfig(dspy-1)
+BuildRequires:  pkgconfig(editorconfig)
+BuildRequires:  pkgconfig(enchant-2)
+BuildRequires:  pkgconfig(flatpak)
+BuildRequires:  pkgconfig(gio-2.0) >= %{glib2_version}
+BuildRequires:  pkgconfig(gladeui-2.0)
+BuildRequires:  pkgconfig(gspell-1)
+BuildRequires:  pkgconfig(gtk4) >= %{gtk4_version}
+BuildRequires:  pkgconfig(gtksourceview-5)
+BuildRequires:  pkgconfig(json-glib-1.0) >= %{json_glib_version}
+BuildRequires:  pkgconfig(jsonrpc-glib-1.0) >= %{jsonrpc_glib_version}
+BuildRequires:  pkgconfig(libadwaita-1)
+BuildRequires:  pkgconfig(libcmark)
+BuildRequires:  pkgconfig(libgit2-glib-1.0) >= %{libgit2_glib_version}
+BuildRequires:  pkgconfig(libpanel-1)
+BuildRequires:  pkgconfig(libpeas-1.0) >= %{libpeas_version}
+BuildRequires:  pkgconfig(libportal-gtk4)
+BuildRequires:  pkgconfig(libsoup-3.0)
+BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(pangoft2)
+BuildRequires:  pkgconfig(libpcre)
+BuildRequires:  pkgconfig(pygobject-3.0)
+BuildRequires:  pkgconfig(sysprof-4) >= %{sysprof_version}
+BuildRequires:  pkgconfig(sysprof-capture-4)
+BuildRequires:  pkgconfig(sysprof-ui-5) >= %{sysprof_version}
+BuildRequires:  pkgconfig(template-glib-1.0) >= %{template_glib_version}
+BuildRequires:  pkgconfig(vte-2.91-gtk4)
+BuildRequires:  pkgconfig(webkit2gtk-5.0)
+BuildRequires:  python3-devel
+BuildRequires:  python3-sphinx
+BuildRequires:  python3-sphinx_rtd_theme
+BuildRequires:  /usr/bin/appstream-util
 
-Requires:       devhelp-libs%{?_isa} >= 1:%{devhelp_version} glib2%{?_isa} >= %{glib2_version}
-Requires:       gtk3%{?_isa} >= %{gtk3_version} json-glib%{?_isa} >= %{json_glib_version}
-Requires:       jsonrpc-glib%{?_isa} >= %{jsonrpc_glib_version} libdazzle%{?_isa} >= %{libdazzle_version}
-Requires:       libgit2-glib%{?_isa} >= %{libgit2_glib_version} libpeas%{?_isa} >= %{libpeas_version}
-Requires:       libpeas-loader-python3%{?_isa} >= %{libpeas_version} libsysprof-ui%{?_isa} >= %{sysprof_version}
-Requires:       template-glib%{?_isa} >= %{template_glib_version} flatpak-builder
+Requires:       glib2%{?_isa} >= %{glib2_version}
+Requires:       gtk4%{?_isa} >= %{gtk4_version}
+Requires:       json-glib%{?_isa} >= %{json_glib_version}
+Requires:       jsonrpc-glib%{?_isa} >= %{jsonrpc_glib_version}
+Requires:       libgit2-glib%{?_isa} >= %{libgit2_glib_version}
+Requires:       libpeas%{?_isa} >= %{libpeas_version}
+Requires:       libpeas-loader-python3%{?_isa} >= %{libpeas_version}
+Requires:       libsysprof-ui%{?_isa} >= %{sysprof_version}
+Requires:       template-glib%{?_isa} >= %{template_glib_version}
+
+Requires:       flatpak-builder
 Recommends:     clang
 Recommends:     gnome-code-assistance
 Recommends:     meson
 Recommends:     python3-jedi
+Recommends:     sysprof-agent
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does not try
@@ -59,7 +89,7 @@ The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 %meson -Dhelp=true
@@ -67,13 +97,12 @@ developing applications that use %{name}.
 
 %install
 %meson_install
-%py_byte_compile %{__python3} %{buildroot}%{_libdir}/gnome-builder/plugins/
+#%%py_byte_compile %{__python3} %{buildroot}%{_libdir}/gnome-builder/plugins/
 
 %find_lang %{name}
 
 %check
-sed -i '/42.[abr]/d' %{buildroot}%{_datadir}/metainfo/org.gnome.Builder.appdata.xml
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.gnome.Builder.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.gnome.Builder.appdata.xml
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.desktop
 
 %files -f gnome-builder.lang
@@ -90,12 +119,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %{_datadir}/glib-2.0/schemas/org.gnome.builder*.gschema.xml
 %exclude %{_datadir}/gnome-builder/gir-1.0/
 %{_datadir}/gnome-builder/
-%dir %{_datadir}/gtksourceview-4
-%dir %{_datadir}/gtksourceview-4/styles
-%{_datadir}/gtksourceview-4/styles/*.xml
-%{_datadir}/gtksourceview-4/language-specs/*.lang
 %{_datadir}/icons/hicolor/*/apps/org.gnome.Builder*.svg
-%{_datadir}/metainfo/org.gnome.Builder.appdata.xml
+%{_metainfodir}/org.gnome.Builder.appdata.xml
 %lang(en) %{_datadir}/doc/gnome-builder/en/
 
 %files devel
@@ -104,6 +129,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %{_datadir}/gnome-builder/gir-1.0/
 
 %changelog
+* Mon Jan 02 2023 lin zhang <lin.zhang@turbolinux.com.cn> - 43.4-1
+- Update to 43.4
+
 * Mon Mar 28 2022 lin zhang <lin.zhang@turbolinux.com.cn> - 42.1-1
 - Update to 42.1 and Add gnome-builder.yaml
 
