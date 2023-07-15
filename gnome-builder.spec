@@ -13,7 +13,7 @@
 
 Name:           gnome-builder
 Version:        43.4
-Release:        1
+Release:        2
 Summary:        IDE for writing GNOME-based software
 License:        GPLv3+ and GPLv2+ and LGPLv3+ and LGPLv2+ and MIT and CC0
 URL:            https://wiki.gnome.org/Apps/Builder
@@ -92,6 +92,10 @@ developing applications that use %{name}.
 %autosetup -p1 -n %{name}-%{version}
 
 %build
+%if "%toolchain" == "clang"
+	export CFLAGS="$CFLAGS -Wno-error=shadow"
+	export CXXFLAGS="$CXXFLAGS -Wno-error=shadow"
+%endif
 %meson -Dhelp=true
 %meson_build
 
@@ -129,6 +133,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Builder.des
 %{_datadir}/gnome-builder/gir-1.0/
 
 %changelog
+* Sat Jul 15 2023 yoo <sunyuechi@iscas.ac.cn> - 43.4-2
+- fix clang build error
+
 * Mon Jan 02 2023 lin zhang <lin.zhang@turbolinux.com.cn> - 43.4-1
 - Update to 43.4
 
